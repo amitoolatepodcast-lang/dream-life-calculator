@@ -366,12 +366,12 @@
 </head>
 <body>
 <div style="text-align: center; padding: 20px 0;">
-  <img src="https://amitoolatepodcast.wordpress.com/wp-content/uploads/2025/08/aitl-podcast-simple.jpg" alt="AITL Logo" style="max-width: 200px;">
+  <img src="AITLlogo.jpg" alt="AITL Logo" style="max-width: 200px;">
 </div>
 <div class="calculator-container">
     <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 10px;">
-        <img src="https://amitoolatepodcast.wordpress.com/wp-content/uploads/2025/08/aitl-podcast-simple.jpg" alt="AITL Logo" style="max-width: 60px; height: auto; border-radius: 4px;">
-        <h1 style="margin: 0;">Am I Too Late? Lifestyle Cost Calculator</h1>
+        <img src="AITLlogo.jpg" alt="AITL Logo" style="max-width: 60px; height: auto; border-radius: 4px;">
+        <h1 style="margin: 0;">Lifestyle Cost Calculator</h1>
     </div>
     <p>Enter your expenses below. All amounts will be converted to monthly and annual equivalents.</p>
                
@@ -1091,6 +1091,8 @@
         </div>
     </div>
 </div>
+<!-- [Previous HTML content remains exactly the same until the script section] -->
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // PERFECT FREQUENCY CONVERSIONS
@@ -1245,71 +1247,72 @@
                 // Update retirement calculator
                 calculateRetirement(grandAnnual);
             }
-            /* ===== NEW VALIDATION FUNCTION ===== */
-function validateInputs() {
-    let emptyFields = [];
-    document.querySelectorAll('.expense-grid').forEach(row => {
-        const name = row.querySelector('.expense-name').value.trim();
-        const amount = row.querySelector('.amount').value.trim();
-        if (name && !amount) {
-            emptyFields.push(name);
-            row.style.backgroundColor = '#fff3cd';
-            setTimeout(() => row.style.backgroundColor = '', 2000);
-        }
-    });
 
-    const messageBox = document.getElementById('validation-message');
-    if (emptyFields.length > 0) {
-        messageBox.innerHTML = `
-            <strong>⚠ Missing amounts for:</strong>
-            <ul>${emptyFields.map(item => `<li>${item}</li>`).join('')}</ul>
-            <small>These will calculate as £0 if left blank</small>
-        `;
-        messageBox.style.display = 'block';
-    } else {
-        messageBox.innerHTML = '<strong>✓ All inputs have values</strong>';
-        messageBox.style.display = 'block';
-        setTimeout(() => messageBox.style.display = 'none', 2000);
-    }
-}
+            function validateInputs() {
+                let emptyFields = [];
+                document.querySelectorAll('.expense-grid').forEach(row => {
+                    const name = row.querySelector('.expense-name').value.trim();
+                    const amount = row.querySelector('.amount').value.trim();
+                    if (name && !amount) {
+                        emptyFields.push(name);
+                        row.style.backgroundColor = '#fff3cd';
+                        setTimeout(() => row.style.backgroundColor = '', 2000);
+                    }
+                });
 
-/* ===== NEW SAVE FUNCTION ===== */
-function saveScenario() {
-    const now = new Date();
-    const scenario = {
-        timestamp: now.toLocaleString(),
-        needs: document.getElementById('needs-total').textContent,
-        wants: document.getElementById('wants-total').textContent,
-        future: document.getElementById('future-total').textContent,
-        monthly: document.getElementById('grand-total').textContent,
-        annual: document.getElementById('grand-annual').textContent,
-        retirement: document.getElementById('retirement-25').textContent
-    };
-    
-    const list = document.getElementById('scenarios-list');
-    list.insertAdjacentHTML('afterbegin', `
-        <div class="saved-scenario">
-            <h4>Scenario ${list.children.length + 1} <small>(${scenario.timestamp})</small></h4>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                <div>Needs: ${scenario.needs}</div>
-                <div>Wants: ${scenario.wants}</div>
-                <div>Future: ${scenario.future}</div>
-                <div>Retirement: ${scenario.retirement}</div>
-            </div>
-            <div style="margin-top: 8px; font-weight: bold;">
-                Total: ${scenario.monthly} (${scenario.annual} annually)
-            </div>
-        </div>
-    `);
-    
-    document.getElementById('saved-scenarios').style.display = 'block';
-}
-/* ===== NEW CLEAR FUNCTION ===== */
-function clearScenarios() {
-    if (confirm("Are you sure you want to clear all saved scenarios?")) {
-        document.getElementById('scenarios-list').innerHTML = '';
-        document.getElementById('saved-scenarios').style.display = 'none';
-    }
+                const messageBox = document.getElementById('validation-message');
+                if (emptyFields.length > 0) {
+                    messageBox.innerHTML = `
+                        <strong>⚠ Missing amounts for:</strong>
+                        <ul>${emptyFields.map(item => `<li>${item}</li>`).join('')}</ul>
+                        <small>These will calculate as £0 if left blank</small>
+                    `;
+                    messageBox.style.display = 'block';
+                } else {
+                    messageBox.innerHTML = '<strong>✓ All inputs have values</strong>';
+                    messageBox.style.display = 'block';
+                    setTimeout(() => messageBox.style.display = 'none', 2000);
+                }
+            }
+
+            function saveScenario() {
+                const now = new Date();
+                const scenario = {
+                    timestamp: now.toLocaleString(),
+                    needs: document.getElementById('needs-total').textContent,
+                    wants: document.getElementById('wants-total').textContent,
+                    future: document.getElementById('future-total').textContent,
+                    monthly: document.getElementById('grand-total').textContent,
+                    annual: document.getElementById('grand-annual').textContent,
+                    retirement: document.getElementById('retirement-25').textContent
+                };
+                
+                const list = document.getElementById('scenarios-list');
+                list.insertAdjacentHTML('afterbegin', `
+                    <div class="saved-scenario">
+                        <h4>Scenario ${list.children.length + 1} <small>(${scenario.timestamp})</small></h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                            <div>Needs: ${scenario.needs}</div>
+                            <div>Wants: ${scenario.wants}</div>
+                            <div>Future: ${scenario.future}</div>
+                            <div>Retirement: ${scenario.retirement}</div>
+                        </div>
+                        <div style="margin-top: 8px; font-weight: bold;">
+                            Total: ${scenario.monthly} (${scenario.annual} annually)
+                        </div>
+                    </div>
+                `);
+                
+                document.getElementById('saved-scenarios').style.display = 'block';
+            }
+
+            function clearScenarios() {
+                if (confirm("Are you sure you want to clear all saved scenarios?")) {
+                    document.getElementById('scenarios-list').innerHTML = '';
+                    document.getElementById('saved-scenarios').style.display = 'none';
+                }
+            }
+
             // Initialize all existing rows
             document.querySelectorAll('.expense-grid').forEach(row => {
                 setupRowActions(row);
@@ -1326,7 +1329,7 @@ function clearScenarios() {
                 });
             });
             
-            // Calculate button
+            // Button event listeners
             document.getElementById('validate').addEventListener('click', validateInputs);
             document.getElementById('reset').addEventListener('click', resetAll);
             document.getElementById('save').addEventListener('click', saveScenario);
@@ -1345,4 +1348,4 @@ function clearScenarios() {
         });
     </script>
 </body>
-</html>
+</html>   
