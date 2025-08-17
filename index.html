@@ -15,21 +15,62 @@
             background-color: #f5f7fa;
         }
         
-        h1, h2, h3 {
-            color: #2a6496;
-        }
-        
         .calculator-container {
             background: white;
             border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 30px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
             margin-bottom: 30px;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        h1 {
+            color: #2a6496;
+            margin: 0;
+            font-size: 28px;
+        }
+        
+        .intro-text {
+            margin-bottom: 30px;
+            color: #555;
+            font-size: 16px;
+        }
+        
+        .podcast-btn {
+            background: #2a6496;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .podcast-btn:hover {
+            background: #1d4b7a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        h2, h3 {
+            color: #2a6496;
         }
         
         .category-section {
             margin-bottom: 30px;
-            padding: 15px;
+            padding: 20px;
             border-radius: 8px;
             background-color: #f8f9fa;
             border-left: 4px solid;
@@ -59,18 +100,20 @@
         .expense-header {
             font-weight: bold;
             border-bottom: 1px solid #ddd;
-            padding-bottom: 5px;
-            margin-bottom: 10px;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
             display: grid;
             grid-template-columns: 2fr 1fr 1fr 1fr 100px;
             gap: 10px;
+            color: #2a6496;
         }
         
         input, select {
-            padding: 8px;
+            padding: 10px;
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 6px;
             width: 100%;
+            font-size: 14px;
         }
         
         input[type="number"] {
@@ -105,15 +148,17 @@
             background: #2a6496;
             color: white;
             border: none;
-            padding: 10px 15px;
-            border-radius: 4px;
+            padding: 12px 20px;
+            border-radius: 6px;
             cursor: pointer;
             font-size: 16px;
             margin-top: 10px;
+            transition: all 0.3s;
         }
         
         .btn:hover {
             background: #1d4b7a;
+            transform: translateY(-2px);
         }
         
         .btn-danger {
@@ -135,11 +180,17 @@
             background: #e8f0fe;
             color: #2a6496;
             border: 1px dashed #2a6496;
-            padding: 8px 15px;
-            border-radius: 4px;
+            padding: 10px 20px;
+            border-radius: 6px;
             cursor: pointer;
-            margin-top: 10px;
+            margin-top: 15px;
             display: inline-block;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .add-row-btn:hover {
+            background: #d6e4ff;
         }
         
         .action-btn {
@@ -155,6 +206,7 @@
             align-items: center;
             justify-content: center;
             margin: 2px;
+            transition: all 0.2s;
         }
 
         .move-up {
@@ -174,20 +226,22 @@
         
         .expense-name {
             width: 100%;
-            padding: 8px;
+            padding: 10px;
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 6px;
+            font-size: 14px;
         }
         
         .category-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 15px;
         }
         
         .action-buttons {
             display: flex;
-            gap: 2px;
+            gap: 5px;
         }
 
         .build-pot-section h4 {
@@ -195,34 +249,28 @@
             border-bottom: 1px solid #d1e3f8;
             padding-bottom: 5px;
         }
-        .build-pot-section ul {
-            margin-top: 8px;
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+        }
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        
+        .saved-scenario {
+            background: #f8f9fa;
+            padding: 15px;
             margin-bottom: 15px;
+            border-radius: 6px;
+            border-left: 3px solid #2a6496;
         }
-        .build-pot-section li {
-            margin-bottom: 5px;
-            font-size: 14px;
-        }
-        /* === NEW CSS ADDITION === */
-.button-group {
-    display: flex;
-    gap: 10px;
-    margin-top: 15px;
-}
-.btn-secondary {
-    background: #6c757d;
-}
-.btn-secondary:hover {
-    background: #5a6268;
-}
-.saved-scenario {
-    background: #f8f9fa;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 4px;
-    border-left: 3px solid #2a6496;
-}
-/* === END NEW CSS === */
 
         /* Tooltip styles */
         .tooltip {
@@ -286,9 +334,9 @@
         }
         
         .retirement-tiers .tier {
-            padding: 10px;
-            margin-bottom: 8px;
-            border-radius: 4px;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 6px;
             background-color: white;
             border-left: 4px solid #2a6496;
         }
@@ -313,20 +361,22 @@
             display: block;
             color: #666;
             margin-top: 4px;
+            font-size: 13px;
         }
         
         /* Multiplier badges */
         .multiplier-display {
             display: flex;
             gap: 15px;
-            margin-top: 10px;
+            margin-top: 15px;
+            margin-bottom: 25px;
         }
 
         .multiplier-badge {
             flex: 1;
-            padding: 10px;
+            padding: 15px;
             background: white;
-            border-radius: 6px;
+            border-radius: 8px;
             text-align: center;
             border: 1px solid #ddd;
             position: relative;
@@ -335,7 +385,7 @@
 
         .multiplier-badge.active {
             border-color: #2a6496;
-            box-shadow: 0 0 0 1px #2a6496;
+            box-shadow: 0 0 0 2px #2a6496;
         }
 
         .multiplier-badge:hover {
@@ -345,7 +395,8 @@
 
         .multiplier-badge h4 {
             color: #2a6496;
-            margin: 0 0 8px 0;
+            margin: 0 0 10px 0;
+            font-size: 16px;
         }
 
         .multiplier-badge.active h4 {
@@ -353,28 +404,142 @@
         }
 
         .multiplier-badge p {
-            font-size: 1.2em;
-            margin: 8px 0;
+            font-size: 1.3em;
+            margin: 10px 0;
             color: #333;
+            font-weight: bold;
         }
 
         .multiplier-badge small {
             color: #666;
             font-size: 0.9em;
         }
+        
+        /* Validation message */
+        #validation-message {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background: #fff3cd;
+            border-radius: 6px;
+            border-left: 4px solid #ffc107;
+        }
+        
+        /* Mobile responsive styles */
+        @media (max-width: 768px) {
+            .calculator-container {
+                padding: 20px;
+            }
+            
+            .header-container {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .podcast-btn {
+                align-self: flex-start;
+            }
+            
+            .expense-grid {
+                grid-template-columns: 1fr;
+                padding: 15px;
+                background: #f8f9fa;
+                margin-bottom: 20px;
+                border-radius: 8px;
+                border-left: 4px solid;
+                gap: 15px;
+            }
+            
+            .needs { border-left-color: #22c55e; }
+            .wants { border-left-color: #60a5fa; }
+            .future { border-left-color: #f59e0b; }
+
+            .expense-grid > div::before {
+                content: attr(data-label);
+                display: block;
+                font-weight: bold;
+                color: #2a6496;
+                font-size: 0.9rem;
+                margin-bottom: 5px;
+            }
+            
+            .expense-grid > div:nth-child(1)::before { content: "Expense Name"; }
+            .expense-grid > div:nth-child(2)::before { content: "Amount"; }
+            .expense-grid > div:nth-child(3)::before { content: "Frequency"; }
+            .expense-grid > div:nth-child(4)::before { content: "Monthly Cost"; }
+            .expense-grid > div:nth-child(5)::before { content: "Actions"; }
+
+            input, select {
+                padding: 12px 10px !important;
+                font-size: 16px;
+                margin-bottom: 5px;
+            }
+
+            .action-buttons {
+                justify-content: flex-start;
+                margin-top: 10px;
+                gap: 10px;
+            }
+            
+            .action-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .calculator-container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .category-header h2 {
+                font-size: 1.3rem;
+            }
+            
+            .retirement-section > div {
+                grid-template-columns: 1fr !important;
+                gap: 15px;
+            }
+            
+            .multiplier-display {
+                flex-direction: column;
+            }
+            
+            .tooltip .tooltiptext {
+                width: 200px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
     </style>
 </head>
 <body>
-<div style="text-align: center; padding: 20px 0;">
-  <img src="AITLlogo.jpg" alt="AITL Logo" style="max-width: 200px;">
-</div>
 <div class="calculator-container">
-    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 10px;">
-        <img src="AITLlogo.jpg" alt="AITL Logo" style="max-width: 60px; height: auto; border-radius: 4px;">
-        <h1 style="margin: 0;">Lifestyle Cost Calculator</h1>
+    <div class="header-container">
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <img src="AITLlogo.jpg" alt="AITL Logo" style="max-width: 200px; height: auto;">
+            <h1 style="margin: 0;">Lifestyle Cost Calculator</h1>
+        </div>
+        <a href="https://linktr.ee/amitoolatepodcast" target="_blank" class="podcast-btn">
+            Listen to Podcast 🎧
+        </a>
     </div>
-    <p>Enter your expenses below. All amounts will be converted to monthly and annual equivalents.</p>
-               
+
+    <p>Enter your expenses below. All amounts will be converted to monthly and annual equivalents.</p>           
         <!-- NEEDS SECTION -->
         <div class="category-section needs">
             <div class="category-header">
@@ -1091,7 +1256,7 @@
         </div>
     </div>
 </div>
-<!-- [Previous HTML content remains exactly the same until the script section] -->
+</div> <!-- Closing calculator-container div -->
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -1378,4 +1543,4 @@
   <span>🎙️</span> Listen Now
 </a>
 </body>
-</html>   
+</html>
