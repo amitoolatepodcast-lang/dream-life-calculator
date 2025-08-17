@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Lifestyle Cost Calculator</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f7fa;
+        }
+        
+        h1, h2, h3 {
+            color: #2a6496;
+        }
+        
+        .calculator-container {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .category-section {
+            margin-bottom: 30px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            border-left: 4px solid;
+            position: relative;
+        }
+        
+        .needs {
+            border-left-color: #22c55e;
+        }
+        
+        .wants {
+            border-left-color: #60a5fa;
+        }
+        
+        .future {
+            border-left-color: #f59e0b;
+        }
+        
+        .expense-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 100px;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+        
+        .expense-header {
+            font-weight: bold;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 100px;
+            gap: 10px;
+        }
+        
+        input, select {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 100%;
+        }
+        
+        input[type="number"] {
+            text-align: right;
+        }
+        
+        .results {
+            background: #e8f0fe;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            font-size: 1.1em;
+            padding: 10px 0;
+            border-top: 1px solid #ccc;
+        }
+        
+        .annual-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1em;
+            padding: 5px 0;
+            color: #555;
+        }
+        
+        .btn {
+            background: #2a6496;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        
+        .btn:hover {
+            background: #1d4b7a;
+        }
+        
+        .btn-danger {
+             background: #dc3545;
+        }
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .retirement-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f0f7ff;
+            border-radius: 8px;
+            border-left: 4px solid #2a6496;
+        }
+        
+        .add-row-btn {
+            background: #e8f0fe;
+            color: #2a6496;
+            border: 1px dashed #2a6496;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            display: inline-block;
+        }
+        
+        .action-btn {
+            background: #f0f0f0;
+            color: #333;
+            border: none;
+            border-radius: 4px;
+            padding: 5px;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 2px;
+        }
+
+        .move-up {
+            background: #e8f0fe;
+            color: #2a6496;
+        }
+        
+        .move-down {
+            background: #e8f0fe;
+            color: #2a6496;
+        }
+        
+        .del-row {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+        
+        .expense-name {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 2px;
+        }
+
+        .build-pot-section h4 {
+            font-size: 16px;
+            border-bottom: 1px solid #d1e3f8;
+            padding-bottom: 5px;
+        }
+        .build-pot-section ul {
+            margin-top: 8px;
+            margin-bottom: 15px;
+        }
+        .build-pot-section li {
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        /* === NEW CSS ADDITION === */
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+.btn-secondary {
+    background: #6c757d;
+}
+.btn-secondary:hover {
+    background: #5a6268;
+}
+.saved-scenario {
+    background: #f8f9fa;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    border-left: 3px solid #2a6496;
+}
+/* === END NEW CSS === */
+
+        /* Tooltip styles */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+        }
+
+        .tooltip-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            height: 18px;
+            background-color: #2a6496;
+            color: white;
+            border-radius: 50%;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: left;
+            border-radius: 6px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #333 transparent transparent transparent;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Retirement tiers */
+        .retirement-tiers {
+            margin-top: 20px;
+        }
+        
+        .retirement-tiers .tier {
+            padding: 10px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            background-color: white;
+            border-left: 4px solid #2a6496;
+        }
+        
+        .retirement-tiers .tier.minimum {
+            border-left-color: #ef4444;
+        }
+        
+        .retirement-tiers .tier.moderate {
+            border-left-color: #f59e0b;
+        }
+        
+        .retirement-tiers .tier.comfortable {
+            border-left-color: #10b981;
+        }
+        
+        .retirement-tiers .tier.dream {
+            border-left-color: #8b5cf6;
+        }
+        
+        .retirement-tiers small {
+            display: block;
+            color: #666;
+            margin-top: 4px;
+        }
+        
+        /* Multiplier badges */
+        .multiplier-display {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .multiplier-badge {
+            flex: 1;
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+            text-align: center;
+            border: 1px solid #ddd;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .multiplier-badge.active {
+            border-color: #2a6496;
+            box-shadow: 0 0 0 1px #2a6496;
+        }
+
+        .multiplier-badge:hover {
+            background: #f5f7fa;
+            border-color: #2a6496;
+        }
+
+        .multiplier-badge h4 {
+            color: #2a6496;
+            margin: 0 0 8px 0;
+        }
+
+        .multiplier-badge.active h4 {
+            font-weight: bold;
+        }
+
+        .multiplier-badge p {
+            font-size: 1.2em;
+            margin: 8px 0;
+            color: #333;
+        }
+
+        .multiplier-badge small {
+            color: #666;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+<div style="text-align: center; padding: 20px 0;">
+  <img src="https://amitoolatepodcast.wordpress.com/wp-content/uploads/2025/08/aitl-podcast-simple.jpg" alt="AITL Logo" style="max-width: 200px;">
+</div>
+<div class="calculator-container">
+    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 10px;">
+        <img src="https://amitoolatepodcast.wordpress.com/wp-content/uploads/2025/08/aitl-podcast-simple.jpg" alt="AITL Logo" style="max-width: 60px; height: auto; border-radius: 4px;">
+        <h1 style="margin: 0;">Am I Too Late? Lifestyle Cost Calculator</h1>
+    </div>
+    <p>Enter your expenses below. All amounts will be converted to monthly and annual equivalents.</p>
+               
+        <!-- NEEDS SECTION -->
+        <div class="category-section needs">
+            <div class="category-header">
+                <h2>Essential Needs</h2>
+            </div>
+            <div class="expense-header">
+                <div>Expense</div>
+                <div>Amount</div>
+                <div>Frequency</div>
+                <div>Monthly</div>
+                <div>Actions</div>
+            </div>
+            
+            <!-- Pre-loaded Needs Expenses -->
+            <div class="expense-grid" data-category="needs">
+                <div><input type="text" class="expense-name" value="Rent or mortgage"></div>
+                <div><input type="number" class="amount" placeholder="0"></div>
+                <div>
+                    <select class="frequency">
+                        <option value="weekly">Weekly</option>
+                        <option value="monthly" selected>Monthly</option>
+                        <option value="annually">Annually</option>
+                    </select>
+                </div>
+                <div class="monthly">£0.00</div>
+                <div class="action-buttons">
+                    <button class="action-btn move-up">↑</button>
+                    <button class="action-btn move-down">↓</button>
+                    <button class="action-btn del-row">×</button>
+                </div>
+            </div>
+            
+            <div class="expense-grid" data-category="needs">
+                <div><input type="text" class="expense-name" value="Property tax / council tax"></div>
+                <div><input type="number" class="amount" placeholder="0"></div>
+                <div>
+                    <select class="frequency">
+                        <option value="monthly">Monthly</option>
+                        <option value="annually" selected>Annually</option>
+                    </select>
+                </div>
+                <div class="monthly">£0.00</div>
+                <div class="action-buttons">
+                    <button class="action-btn move-up">↑</button>
+                    <button class="action-btn move-down">↓</button>
+                    <button class="action-btn del-row">×</button>
+                </div>
+            </div>
+            
+            <div class="expense-grid" data-category="needs">
+                <div><input type="text" class="expense-name" value="Home insurance"></div>
+                <div><input type="number" class="amount" placeholder="0"></div>
+                <div>
+                    <select class="frequency">
+                        <option value="monthly">Monthly</option>
+                        <option value="annually" selected>Annually</option>
+                    </select>
+                </div>
+                <div class="monthly">£0.00</div>
+                <div class="action-buttons">
+                    <button class="action-btn move-up">↑</button>
+                    <button class="action-btn move-down">↓</button>
+                    <button class="action-btn del-row">×</button>
+                </div>
+            </div>
+            
+            <div class="expense-grid" data-category="needs">
+                <div><input type="text" class="expense-name" value="Service charges / maintenance fees"></div>
+                <div><input type="number" class="amount" placeholder="0"></div>
+                <div>
+                    <select class="frequency">
+                        <option value="monthly" selected>Monthly</option>
+                        <option value="annually">Annually</option>
+                    </select>
+                </div>
+                <div class="monthly">£0.00</div>
+                <div class="action-buttons">
+                    <button class="action-btn move-up">↑</button>
+                    <button class="action-btn move-down">↓</button>
+                    <button class="action-btn del-row">×</button>
+                </div>
+            </div>
+            
+            <div class="expense-grid" data-category="needs">
+                <div><input type="text" class="expense-name" value="Utilities (electricity, gas, water)"></div>
+                <div><input type="number" class="amount" placeholder="0"></div>
+                <div>
+                    <select class="frequency">
+                        <option value="monthly" selected>Monthly</option>
+                        <option value="annually">Annually</option>
+                    </select>
+                </div>
+                <div class="monthly">£0.00</div>
+                <div class="action-buttons">
+                    <button class="action-btn move-up">↑</button>
+                    <button class="action-btn move-down">↓</button>
+                    <button class="action-btn del-row">×</button>
+                </div>
+            </div>
+            
+            <div class="expense-grid" data-category="needs">
+                <div><input type="text" class="expense-name" value="Internet, TV licence"></div>
+                <div><input type="number" class="amount" placeholder="0"></div>
+                <div>
+                    <select class="frequency">
+                        <option value="monthly" selected>Monthly</option>
+                        <option value="annually">Annually</option>
+                    </select>
+                </div>
+                <div class="monthly">£0.00</div>
+                <div class="action-buttons">
+                    <button class="action-btn move-up">↑</button>
+                    <button class="action-btn move-down">↓</button>
+                    <button class="action-btn del-row">×</button>
+                </div>
+            </div>
+            
+            <div class="expense-grid" data-category="needs">
+                <div><input type="text" class="expense-name" value="Groceries"></div>
+                <div><input type="number" class="amount" placeholder="0"></div>
+                <div>
+                    <select class="frequency">
+                        <option value="weekly" selected>Weekly</option>
+                        <option value="monthly">Monthly</option>
+                    </select>
+                </div>
+                <div class="monthly">£0.00</div>
+                <div class="action-buttons">
+                    <button class="action-btn move-up">↑</button>
+                    <button class="action-btn move-down">↓</button>
+                    <button class="action-btn del-row">×</button>
+                </div>
+            </div>
+            
+            <div class="expense-grid" data-category="needs">
+                <div><input type="text" class="expense-name" value="Household supplies (cleaning, toiletries)"></div>
+                <div><input type="number" class="amount" placeholder="0"></div>
+                <div>
+                    <select class="frequency">
+                        <option value="monthly" selected>Monthly</option>
+                        <option value="weekly">Weekly</option>
+                    </select>
+                </div>
+                <div class="monthly">£0.00</div>
+                <div class="action-buttons">
+                    <button class="action-btn move-up">↑</button>
+                    <button class="action-btn move-down">↓</button>
+                    <button class="action-btn del-row">×</button>
+                </div>
+            </div>
+            
+            <div class="expense-grid" data-category="needs">
+                <div><input type="text" class="expense-name" value="Pet food & care"></div>
+                <div><input type="number" class="amount" placeholder="0"></div>
+                <div>
+                    <select class="frequency">
+                        <option value="monthly" selected>Monthly</option>
+                        <option value="weekly">Weekly</option>
+                    </select>
+                </div>
+                <div class="monthly">£0.00</div>
+                <div class="action-buttons">
+                    <button class="action-btn move-up">↑</button>
+                    <button class="action-btn move-down">↓</button>
+                    <button class="action-btn del-row">×</button>
+                </div>
+            </div>
+            
+            <div class="expense-grid" data-category="needs">
+                <div><input type="text" class="expense-name" value="Public transport passes"></div>
+                <div><input type="number" class="amount" placeholder="0"></div>
+                <div>
+                    <select class="frequency">
+                        <option value="monthly" selected>Monthly</option>
+                        <option value="annually">Annually</option>
+                    </select>
+                </div>
+                <div class="monthly">£0.00</div>
+                <div class="action-buttons">
+                    <button class="action-btn move-up">↑</button>
+                    <button class="action-btn move-down">↓</button>
+                    <button class="action-btn del-row">×</button>
+                </div>
+            </div>
+            
+            <div class="expense-grid" data-category="needs">
+                <div><input type="text" class="expense-name" value="Fuel"></div>
+                <div><input type="number" class="amount" placeholder="0"></div>
+                <div>
+                    <select class="frequency">
+                        <option value="weekly" selected>Weekly</option>
+                        <option value="monthly">Monthly</option>
+                    </select>
+                </div>
+                <div class="monthly">£0.00</div>
+                <div class="action-buttons">
+                    <button class="action-btn move-up">↑</button>
+                    <button class="action-btn move-down">↓</button>
+                    <button class="action-btn del-row">×</button>
+                </div>
+            </div>
+            
+            <div class="expense-grid" data-category="needs">
+                <div><input type="text" class="expense-name" value="Vehicle insurance"></div>
+                <div><input type="number" class="amount" placeholder="0"></div>
+                <div>
+                    <select class="frequency">
+                        <option value="monthly">Monthly</option>
+                        <option value="annually" selected>Annually</option>
+                    </select>
+                </div>
+                <div class="monthly">£0.00</div>
+                <div class="action-buttons">
+                    <button class="action-btn move-up">↑</button>
+                    <button class="action-btn move-down">↓</button>
+                    <button class="action-btn del-row">×</button>
+                </div>
+            </div>
+
+            <!-- Moved Add Need button to bottom -->
+            <button class="add-row-btn" data-category="needs">+ Add Need</button>
+        </div>
+        
+        <!-- WANTS SECTION -->
+        <div class="category-section wants">
+            <div class="category-header">
+                <h2>Lifestyle Wants</h2>
+            </div>
+            <div class="expense-header">
+                <div>Expense</div>
+                <div>Amount</div>
+                <div>Frequency</div>
+                <div>Monthly</div>
+                <div>Actions</div>
+            </div>
+            
+            <!-- Pre-loaded Wants Expenses -->
+            <div class="expense-grid" data-category="wants">
+                <div><input type="text" class="expense-name" value="Eating out / takeaways / coffee"></div>
+                <div><input type="number" class="amount" placeholder="0"></div>
+                <div>
+                    <select class="frequency">
+                        <option value="weekly" selected>Weekly</option>
+                        <option value="monthly">Monthly</option>
+                    </select>
+                </div>
+                <div class="monthly">£0.00</div>
+                <div class="action-buttons">
+                    <button class="action-btn move-up">↑</button>
+                    <button class="action-btn move-down">↓</button>
+                    <button class="action-btn del-row">×</button>
+                </div>
+            </div>
+            
+            <div class="expense-grid" data-category="wants">
+                <div><input type="text" class="expense-name" value="Streaming services / paid TV"></div>
+                <div><input type="number" class="amount" placeholder="0"></div>
+                <div>
+                    <select class="frequency">
+                        <option value="monthly" selected>Monthly</option>
+                        <option value="annually">Annually</option>
+                    </select>
+                </div>
+                <div class="monthly">£0.00</div>
+                <div class="action-buttons">
+                    <button class="action-btn move-up">↑</button>
+                    <button class="action-btn move-down">↓</button>
+                    <button class="action-btn del-row">×</button>
+                </div>
+            </div>
+            
+            <div class="expense-grid" data-category="wants">
+                <div><input type="text" class="expense-name" value="Clothing & shoes (beyond essentials)"></div>
+                <div><input type="number" class="amount" placeholder="0"></div>
+                <div>
+                    <select class="frequency">
+                        <option value="monthly" selected>Monthly</option>
+                        <option value="annually">Annually</option>
+                    </select>
+                </div>
+                <div class="monthly">£0.00</div>
+                <div class="action-buttons">
+                    <button class="action-btn move-up">↑</button>
+                    <button class="action-btn move-down">↓</button>
+                    <button class="action-btn del-row">×</button>
+                </div>
+            </div>
+            
+            <div class="expense-grid" data-category="wants">
+                <div><input type="text" class="expense-name" value="Haircuts / beauty / grooming"></div>
+                <div><input type="number" class="amount" placeholder="0"></div>
+                <div>
+                    <select class="frequency">
+                        <option value="monthly" selected>Monthly</option>
+                        <option value="weekly">Weekly</option>
+                    </select>
+                </div>
+                <div class="monthly">£0.00</div>
+                <div class="action-buttons">
+                    <button class="action-btn move-up">↑</button>
+                    <button class="action-btn move-down">↓</button>
+                    <button class="action-btn del-row">×</button>
+                </div>
+            </div>
+            
+            <div class="expense-grid" data-category="wants">
+                <div><input type="text" class="expense-name" value="Hobbies & leisure activities"></div>
+                <div><input type="number" class="amount" placeholder="0"></div>
+                <div>
+                    <select class="frequency">
+                        <option value="monthly" selected>Monthly</option>
+                        <option value="weekly">Weekly</option>
+                    </select>
+                </div>
+                <div class="monthly">£0.00</div>
+                <div class="action-buttons">
+                    <button class="action-btn move-up">↑</button>
+                    <button class="action-btn move-down">↓</button>
+                    <button class="action-btn del-row">×</button>
+                </div>
+            </div>
+            
+            <div class="expense-grid" data-category="wants">
+                <div><input type="text" class="expense-name" value="Gym / fitness classes / sports"></div>
+                <div><input type="number" class="amount" placeholder="0"></div>
+                <div>
+                    <select class="frequency">
+                        <option value="monthly" selected>Monthly</option>
+                        <option value="annually">Annually</option>
+                    </select>
+                </div>
+                <div class="monthly">£0.00</div>
+                <div class="action-buttons">
+                    <button class="action-btn move-up">↑</button>
+                    <button class="action-btn move-down">↓</button>
+                    <button class="action-btn del-row">×</button>
+                </div>
+            </div>
+            
+            <div class="expense-grid" data-category="wants">
+                <div><input type="text" class="expense-name" value="Education & courses (non-essential)"></div>
+                <div><input type="number" class="amount" placeholder="0"></div>
+                <div>
+                    <select class="frequency">
+                        <option value="monthly" selected>Monthly</option>
+                        <option value="annually">Annually</option>
+                    </select>
+                </div>
+                <div class="monthly">£0.00</div>
+                <div class="action-buttons">
+                    <button class="action-btn move-up">↑</button>
+                    <button class="action-btn move-down">↓</button>
+                    <button class="action-btn del-row">×</button>
+                </div>
+            </div>
+            
+            <div class="expense-grid" data-category="wants">
+                <div><input type="text" class="expense-name" value="Cultural activities (theatre, cinema, events)"></div>
+                <div><input type="number" class="amount" placeholder="0"></div>
+                <div>
+                    <select class="frequency">
+                        <option value="monthly" selected>Monthly</option>
+                        <option value="weekly">Weekly</option>
+                    </select>
+                </div>
+                <div class="monthly">£0.00</div>
+                <div class="action-buttons">
+                    <button class="action-btn move-up">↑</button>
+                    <button class="action-btn move-down">↓</button>
+                    <button class="action-btn del-row">×</button>
+                </div>
+            </div>
+            
+            <div class="expense-grid" data-category="wants">
+                <div><input type="text" class="expense-name" value="Travel / weekend trips / holidays"></div>
+                <div><input type="number" class="amount" placeholder="0"></div>
+                <div>
+                    <select class="frequency">
+                        <option value="annually" selected>Annually</option>
+                        <option value="monthly">Monthly</option>
+                    </select>
+                </div>
+                <div class="monthly">£0.00</div>
+                <div class="action-buttons">
+                    <button class="action-btn move-up">↑</button>
+                    <button class="action-btn move-down">↓</button>
+                    <button class="action-btn del-row">×</button>
+                </div>
+            </div>
+            
+            <div class="expense-grid" data-category="wants">
+                <div><input type="text" class="expense-name" value="Subscriptions (apps, memberships, clubs)"></div>
+                <div><input type="number" class="amount" placeholder="0"></div>
+                <div>
+                    <select class="frequency">
+                        <option value="monthly" selected>Monthly</option>
+                        <option value="annually">Annually</option>
+                    </select>
+                </div>
+                <div class="monthly">£0.00</div>
+                <div class="action-buttons">
+                    <button class="action-btn move-up">↑</button>
+                    <button class="action-btn move-down">↓</button>
+                    <button class="action-btn del-row">×</button>
+                </div>
+            </div>
+            
+            <div class="expense-grid" data-category="wants">
+                <div><input type="text" class="expense-name" value="Gifts (birthdays, holidays)"></div>
+                <div><input type="number" class="amount" placeholder="0"></div>
+                <div>
+                    <select class="frequency">
+                        <option value="monthly" selected>Monthly</option>
+                        <option value="annually">Annually</option>
+                    </select>
+                </div>
+                <div class="monthly">£0.00</div>
+                <div class="action-buttons">
+                    <button class="action-btn move-up">↑</button>
+                    <button class="action-btn move-down">↓</button>
+                    <button class="action-btn del-row">×</button>
+                </div>
+            </div>
+
+            <!-- Moved Add Want button to bottom -->
+            <button class="add-row-btn" data-category="wants">+ Add Want</button>
+        </div>
+        
+        <!-- FUTURE SECTION -->
+        <div class="category-section future">
+            <div class="category-header">
+                <h2>Savings / Future You</h2>
+            </div>
+            <div class="expense-header">
+                <div>Expense</div>
+                <div>Amount</div>
+                <div>Frequency</div>
+                <div>Monthly</div>
+                <div>Actions</div>
+            </div>
+            
+            <!-- Pre-loaded Future Expenses -->
+            <div class="expense-grid" data-category="future">
+                <div><input type="text" class="expense-name" value="Pension contributions"></div>
+                <div><input type="number" class="amount" placeholder="0"></div>
+                <div>
+                    <select class="frequency">
+                        <option value="monthly" selected>Monthly</option>
+                        <option value="annually">Annually</option>
+                    </select>
+                </div>
+                <div class="monthly">£0.00</div>
+                <div class="action-buttons">
+                    <button class="action-btn move-up">↑</button>
+                    <button class="action-btn move-down">↓</button>
+                    <button class="action-btn del-row">×</button>
+                </div>
+            </div>
+            
+            <div class="expense-grid" data-category="future">
+                <div><input type="text" class="expense-name" value="Savings contributions (emergency fund, goals)"></div>
+                <div><input type="number" class="amount" placeholder="0"></div>
+                <div>
+                    <select class="frequency">
+                        <option value="monthly" selected>Monthly</option>
+                        <option value="weekly">Weekly</option>
+                    </select>
+                </div>
+                <div class="monthly">£0.00</div>
+                <div class="action-buttons">
+                    <button class="action-btn move-up">↑</button>
+                    <button class="action-btn move-down">↓</button>
+                    <button class="action-btn del-row">×</button>
+                </div>
+            </div>
+            
+            <div class="expense-grid" data-category="future">
+                <div><input type="text" class="expense-name" value="Investments"></div>
+                <div><input type="number" class="amount" placeholder="0"></div>
+                <div>
+                    <select class="frequency">
+                        <option value="monthly" selected>Monthly</option>
+                        <option value="annually">Annually</option>
+                    </select>
+                </div>
+                <div class="monthly">£0.00</div>
+                <div class="action-buttons">
+                    <button class="action-btn move-up">↑</button>
+                    <button class="action-btn move-down">↓</button>
+                    <button class="action-btn del-row">×</button>
+                </div>
+            </div>
+            
+            <div class="expense-grid" data-category="future">
+                <div><input type="text" class="expense-name" value="Extra mortgage payments"></div>
+                <div><input type="number" class="amount" placeholder="0"></div>
+                <div>
+                    <select class="frequency">
+                        <option value="monthly" selected>Monthly</option>
+                        <option value="annually">Annually</option>
+                    </select>
+                </div>
+                <div class="monthly">£0.00</div>
+                <div class="action-buttons">
+                    <button class="action-btn move-up">↑</button>
+                    <button class="action-btn move-down">↓</button>
+                    <button class="action-btn del-row">×</button>
+                </div>
+            </div>
+            
+            <div class="expense-grid" data-category="future">
+                <div><input type="text" class="expense-name" value="Debt overpayments (above minimum)"></div>
+                <div><input type="number" class="amount" placeholder="0"></div>
+                <div>
+                    <select class="frequency">
+                        <option value="monthly" selected>Monthly</option>
+                        <option value="weekly">Weekly</option>
+                    </select>
+                </div>
+                <div class="monthly">£0.00</div>
+                <div class="action-buttons">
+                    <button class="action-btn move-up">↑</button>
+                    <button class="action-btn move-down">↓</button>
+                    <button class="action-btn del-row">×</button>
+                </div>
+            </div>
+            
+            <div class="expense-grid" data-category="future">
+                <div><input type="text" class="expense-name" value="Holiday / travel fund"></div>
+                <div><input type="number" class="amount" placeholder="0"></div>
+                <div>
+                    <select class="frequency">
+                        <option value="monthly" selected>Monthly</option>
+                        <option value="weekly">Weekly</option>
+                    </select>
+                </div>
+                <div class="monthly">£0.00</div>
+                <div class="action-buttons">
+                    <button class="action-btn move-up">↑</button>
+                    <button class="action-btn move-down">↓</button>
+                    <button class="action-btn del-row">×</button>
+                </div>
+            </div>
+            
+            <div class="expense-grid" data-category="future">
+                <div><input type="text" class="expense-name" value="Donations / charitable giving"></div>
+                <div><input type="number" class="amount" placeholder="0"></div>
+                <div>
+                    <select class="frequency">
+                        <option value="monthly" selected>Monthly</option>
+                        <option value="annually">Annually</option>
+                    </select>
+                </div>
+                <div class="monthly">£0.00</div>
+                <div class="action-buttons">
+                    <button class="action-btn move-up">↑</button>
+                    <button class="action-btn move-down">↓</button>
+                    <button class="action-btn del-row">×</button>
+                </div>
+            </div>
+
+            <!-- Moved Add Future button to bottom and renamed -->
+            <button class="add-row-btn" data-category="future">+ Add Future</button>
+        </div>
+        
+        <div class="button-group">
+    <button id="validate" class="btn">Validate Inputs</button>
+    <button id="reset" class="btn">Reset All</button>
+    <button id="save" class="btn btn-secondary">Save Scenario</button>
+    <button id="clear-scenarios" class="btn btn-danger">Clear Scenarios</button>
+</div>
+
+<div id="validation-message" style="display:none; margin-top:10px; padding:10px; background:#fff3cd; border-radius:4px;"></div>
+
+<div id="saved-scenarios" style="margin-top:20px; display:none;">
+    <h3>Saved Scenarios</h3>
+    <div id="scenarios-list"></div>
+</div>
+        <!-- Results Section -->
+        <div class="results" id="results">
+            <h3>Your Complete Lifestyle Costs. 
+                <span class="tooltip"><span class="tooltip-icon">?</span><span class="tooltiptext">These totals represent your current monthly and annual spending. The retirement targets below are calculated based on your annual spending.</span></span></h3>
+            
+            <div class="total-row">
+                <span>Essential Needs:</span>
+                <span id="needs-total">£0.00</span>
+            </div>
+            <div class="annual-row">
+                <span>Annual Needs:</span>
+                <span id="needs-annual">£0.00</span>
+            </div>
+            
+            <div class="total-row">
+                <span>Lifestyle Wants:</span>
+                <span id="wants-total">£0.00</span>
+            </div>
+            <div class="annual-row">
+                <span>Annual Wants:</span>
+                <span id="wants-annual">£0.00</span>
+            </div>
+            
+            <div class="total-row">
+                <span>Savings / Future:</span>
+                <span id="future-total">£0.00</span>
+            </div>
+            <div class="annual-row">
+                <span>Annual Savings:</span>
+                <span id="future-annual">£0.00</span>
+            </div>
+            
+            <div class="total-row" style="font-size: 1.2em; border-top: 2px solid #2a6496;">
+                <span>Total Monthly Cost:</span>
+                <span id="grand-total">£0.00</span>
+            </div>
+            <div class="annual-row" style="font-size: 1.1em;">
+                <span>Total Annual Cost:</span>
+                <span id="grand-annual">£0.00</span>
+            </div>
+        </div>
+        
+        <!-- RETIREMENT CALCULATOR -->
+<div class="retirement-section">
+    <h3>Retirement Savings Target</h3>
+    <div class="inflation-note" style="background: #fff3cd; padding: 12px; border-radius: 6px; margin-top: 15px;">
+        <p style="margin: 0; font-size: 14px;">
+            ⚠️ <strong>Note:</strong> All amounts shown are in today's pounds. 
+            Remember inflation will reduce purchasing power over time. 
+            Consider increasing your targets by 2-3% annually.
+        </p>
+    </div>
+    <p>Based on your annual spending of <strong id="retirement-base">£0.00</strong>, you'll need:</p>
+
+    <!-- Multiplier Buttons -->
+    <div class="multiplier-display" style="margin-bottom: 25px;">
+        <div class="multiplier-badge active">
+            <h4>20× Multiple <span class="tooltip"><span class="tooltip-icon">?</span><span class="tooltiptext">Based on the 4% rule, this would provide £1 for every £25 saved. A more conservative estimate.</span></span></h4>
+            <p id="retirement-20">£0.00</p>
+            <small>Conservative estimate</small>
+        </div>
+        <div class="multiplier-badge">
+            <h4>25× Multiple <span class="tooltip"><span class="tooltip-icon">?</span><span class="tooltiptext">Based on the 4% rule, this would provide £1 for every £25 saved. The standard recommendation for retirement planning.</span></span></h4>
+            <p id="retirement-25">£0.00</p>
+            <small>Recommended target</small>
+        </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; align-items: start;">
+        <!-- Retirement Tiers Column -->
+        <div style="display: flex; flex-direction: column; height: 100%;">
+            <div class="retirement-tiers" style="flex-grow: 1; padding-top: 0;">
+                <h4 style="margin-top: 0; padding-bottom: 5px; border-bottom: 1px solid #d1e3f8; font-size: 16px;">Retirement Lifestyle Tiers <span class="tooltip"><span class="tooltip-icon">?</span><span class="tooltiptext">These tiers represent different retirement lifestyles based on UK research. Minimum covers basic needs, Moderate adds some flexibility, Comfortable includes regular leisure activities, and Dream allows for luxury spending and travel.</span></span></h4>
+                <div class="tier minimum">
+                    <span>Minimum: £58,000 (single) / No additional for a couple <span class="tooltip"><span class="tooltip-icon">?</span><span class="tooltiptext">Covers all your needs with some very basic wants. You'll have a no-frills retirement with state pension support.</span></span></span>
+                    <small>Basic needs covered with state pension</small>
+                </div>
+                <div class="tier moderate">
+                    <span>Moderate: £390,000 (single) / £400,000 (a couple)<span class="tooltip"><span class="tooltip-icon">?</span><span class="tooltiptext">A more comfortable retirement with some leisure activities and occasional holidays, but still budget-conscious.</span></span></span>
+                    <small>No-frills life with some flexibility</small>
+                </div>
+                <div class="tier comfortable">
+                    <span>Comfortable: £650,000 (single) / £720,000 (a couple) <span class="tooltip"><span class="tooltip-icon">?</span><span class="tooltiptext">A comfortable retirement with regular leisure activities, holidays, and the ability to replace household goods when needed.</span></span></span>
+                    <small>Travel and breathing room</small>
+                </div>
+                <div class="tier dream">
+                    <span>Dream: £1M+ <span class="tooltip"><span class="tooltip-icon">?</span><span class="tooltiptext">Your ideal retirement lifestyle with luxury spending, frequent travel, and the ability to help family members financially.</span></span></span>
+                    <small>Your ideal lifestyle</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ways to Build Your Pot Column -->
+        <div style="display: flex; flex-direction: column; height: 100%;">
+            <div class="build-pot-section" style="background: #f0f7ff; padding: 20px; border-radius: 8px; flex-grow: 1; display: flex; flex-direction: column; padding-top: 0;">
+                <h4 style="font-size: 16px; margin-top: 0; padding-bottom: 5px; margin-bottom: 15px;">Ways to Build Your Pot</h4>
+                
+                <div style="flex-grow: 1;">
+                    <div>
+                        <h5 style="color: #2a6496; margin: 0 0 8px 0; font-size: 14px;">1. Pensions</h5>
+                        <ul style="margin: 0 0 15px 0; padding-left: 20px; font-size: 14px;">
+                            <li style="margin-bottom: 5px;">Maximize workplace pension contributions</li>
+                            <li style="margin-bottom: 5px;">Open a private SIPP pension</li>
+                            <li style="margin-bottom: 5px;">Take full employer matching</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h5 style="color: #2a6496; margin: 0 0 8px 0; font-size: 14px;">2. Investments</h5>
+                        <ul style="margin: 0 0 15px 0; padding-left: 20px; font-size: 14px;">
+                            <li style="margin-bottom: 5px;">Global index funds (set-and-forget)</li>
+                            <li style="margin-bottom: 5px;">Dividend-paying stocks</li>
+                            <li style="margin-bottom: 5px;">Tax-efficient ISAs</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h5 style="color: #2a6496; margin: 0 0 8px 0; font-size: 14px;">3. Property</h5>
+                        <ul style="margin: 0 0 15px 0; padding-left: 20px; font-size: 14px;">
+                            <li style="margin-bottom: 5px;">Rental property income</li>
+                            <li style="margin-bottom: 5px;">Downsizing your home</li>
+                            <li style="margin-bottom: 5px;">Relocating to lower-cost areas</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h5 style="color: #2a6496; margin: 0 0 8px 0; font-size: 14px;">4. Side Hustles</h5>
+                        <ul style="margin: 0 0 0 0; padding-left: 20px; font-size: 14px;">
+                            <li style="margin-bottom: 5px;">Freelance/consulting work</li>
+                            <li style="margin-bottom: 5px;">Passive income streams</li>
+                            <li style="margin-bottom: 5px;">Part-time work in retirement</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // PERFECT FREQUENCY CONVERSIONS
+            function convertToMonthly(amount, frequency) {
+                amount = parseFloat(amount) || 0;
+                switch(frequency) {
+                    case 'weekly': return amount * (52 / 12);  // Weekly → Monthly
+                    case 'annually': return amount / 12;       // Annual → Monthly
+                    case 'monthly': 
+                    default: return amount;                    // Monthly stays same
+                }
+            }
+            
+            // Format currency nicely
+            function formatCurrency(amount) {
+                return '£' + amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+            
+            // Calculate retirement targets
+            function calculateRetirement(annualSpending) {
+                document.getElementById('retirement-base').textContent = formatCurrency(annualSpending);
+                document.getElementById('retirement-20').textContent = formatCurrency(annualSpending * 20);
+                document.getElementById('retirement-25').textContent = formatCurrency(annualSpending * 25);
+            }
+            
+            // Add new expense row to specified category
+            function addNewExpenseRow(category) {
+                const section = document.querySelector(`.category-section.${category}`);
+                const expenseGrids = section.querySelectorAll('.expense-grid');
+                const lastRow = expenseGrids[expenseGrids.length - 1];
+                
+                const newRow = lastRow.cloneNode(true);
+                newRow.querySelector('.expense-name').value = '';
+                newRow.querySelector('.amount').value = '';
+                newRow.querySelector('.frequency').value = 'monthly';
+                newRow.querySelector('.monthly').textContent = '£0.00';
+                
+                // Setup action buttons
+                setupRowActions(newRow);
+                
+                lastRow.parentNode.insertBefore(newRow, lastRow.nextSibling);
+                
+                // Add event listeners to new inputs
+                newRow.querySelectorAll('.amount, .frequency').forEach(input => {
+                    input.addEventListener('input', calculateTotals);
+                });
+            }
+            
+            // Reset all inputs to default
+            function resetAll() {
+                document.querySelectorAll('.expense-grid').forEach(row => {
+                    // Clear the expense name if it's not one of the pre-loaded defaults
+                    const nameInput = row.querySelector('.expense-name');
+                    if (!nameInput.value || nameInput.value.trim() === '') {
+                        nameInput.value = '';
+                    }
+                    
+                    // Reset amount to empty
+                    row.querySelector('.amount').value = '';
+                    
+                    // Reset frequency to monthly (or the original default)
+                    const frequencySelect = row.querySelector('.frequency');
+                    if (row.closest('.needs') && nameInput.value.includes('Property tax')) {
+                        frequencySelect.value = 'annually'; // Special case for property tax
+                    } else if (row.closest('.needs') && (nameInput.value.includes('Groceries') || nameInput.value.includes('Fuel'))) {
+                        frequencySelect.value = 'weekly'; // Special case for groceries/fuel
+                    } else if (row.closest('.wants') && nameInput.value.includes('Eating out')) {
+                        frequencySelect.value = 'weekly'; // Special case for eating out
+                    } else {
+                        frequencySelect.value = 'monthly'; // Default
+                    }
+                    
+                    // Reset monthly display
+                    row.querySelector('.monthly').textContent = '£0.00';
+                });
+                
+                // Recalculate to show all zeros
+                calculateTotals();
+            }
+            
+            // Setup row action buttons
+            function setupRowActions(row) {
+                const moveUpBtn = row.querySelector('.move-up');
+                const moveDownBtn = row.querySelector('.move-down');
+                const delBtn = row.querySelector('.del-row');
+                const section = row.closest('.category-section');
+                
+                moveUpBtn.addEventListener('click', function() {
+                    const prev = row.previousElementSibling;
+                    if (prev && prev.classList.contains('expense-grid')) {
+                        row.parentNode.insertBefore(row, prev);
+                        calculateTotals();
+                    }
+                });
+                
+                moveDownBtn.addEventListener('click', function() {
+                    const next = row.nextElementSibling;
+                    if (next && next.classList.contains('expense-grid')) {
+                        row.parentNode.insertBefore(next, row);
+                        calculateTotals();
+                    }
+                });
+                
+                delBtn.addEventListener('click', function() {
+                    if (section.querySelectorAll('.expense-grid').length > 1) {
+                        row.remove();
+                        calculateTotals();
+                    } else {
+                        alert("Each category must have at least one expense item. Add a new one before deleting this.");
+                    }
+                });
+            }
+            
+            // Main calculation function
+            function calculateTotals() {
+                let needsTotal = 0;
+                let wantsTotal = 0;
+                let futureTotal = 0;
+                
+                // Process all expense rows
+                document.querySelectorAll('.expense-grid').forEach(row => {
+                    const amount = parseFloat(row.querySelector('.amount').value) || 0;
+                    const frequency = row.querySelector('.frequency').value;
+                    const monthlyDisplay = row.querySelector('.monthly');
+                    
+                    // Calculate monthly amount
+                    const monthlyAmount = convertToMonthly(amount, frequency);
+                    monthlyDisplay.textContent = formatCurrency(monthlyAmount);
+                    
+                    // Add to appropriate total
+                    const category = row.closest('.category-section').classList[1];
+                    if (category === 'needs') needsTotal += monthlyAmount;
+                    else if (category === 'wants') wantsTotal += monthlyAmount;
+                    else if (category === 'future') futureTotal += monthlyAmount;
+                });
+                
+                // Calculate annual totals
+                const grandTotal = needsTotal + wantsTotal + futureTotal;
+                const grandAnnual = grandTotal * 12;
+                
+                // Update the display
+                document.getElementById('needs-total').textContent = formatCurrency(needsTotal);
+                document.getElementById('wants-total').textContent = formatCurrency(wantsTotal);
+                document.getElementById('future-total').textContent = formatCurrency(futureTotal);
+                document.getElementById('grand-total').textContent = formatCurrency(grandTotal);
+                
+                document.getElementById('needs-annual').textContent = formatCurrency(needsTotal * 12);
+                document.getElementById('wants-annual').textContent = formatCurrency(wantsTotal * 12);
+                document.getElementById('future-annual').textContent = formatCurrency(futureTotal * 12);
+                document.getElementById('grand-annual').textContent = formatCurrency(grandAnnual);
+                
+                // Update retirement calculator
+                calculateRetirement(grandAnnual);
+            }
+            /* ===== NEW VALIDATION FUNCTION ===== */
+function validateInputs() {
+    let emptyFields = [];
+    document.querySelectorAll('.expense-grid').forEach(row => {
+        const name = row.querySelector('.expense-name').value.trim();
+        const amount = row.querySelector('.amount').value.trim();
+        if (name && !amount) {
+            emptyFields.push(name);
+            row.style.backgroundColor = '#fff3cd';
+            setTimeout(() => row.style.backgroundColor = '', 2000);
+        }
+    });
+
+    const messageBox = document.getElementById('validation-message');
+    if (emptyFields.length > 0) {
+        messageBox.innerHTML = `
+            <strong>⚠ Missing amounts for:</strong>
+            <ul>${emptyFields.map(item => `<li>${item}</li>`).join('')}</ul>
+            <small>These will calculate as £0 if left blank</small>
+        `;
+        messageBox.style.display = 'block';
+    } else {
+        messageBox.innerHTML = '<strong>✓ All inputs have values</strong>';
+        messageBox.style.display = 'block';
+        setTimeout(() => messageBox.style.display = 'none', 2000);
+    }
+}
+
+/* ===== NEW SAVE FUNCTION ===== */
+function saveScenario() {
+    const now = new Date();
+    const scenario = {
+        timestamp: now.toLocaleString(),
+        needs: document.getElementById('needs-total').textContent,
+        wants: document.getElementById('wants-total').textContent,
+        future: document.getElementById('future-total').textContent,
+        monthly: document.getElementById('grand-total').textContent,
+        annual: document.getElementById('grand-annual').textContent,
+        retirement: document.getElementById('retirement-25').textContent
+    };
+    
+    const list = document.getElementById('scenarios-list');
+    list.insertAdjacentHTML('afterbegin', `
+        <div class="saved-scenario">
+            <h4>Scenario ${list.children.length + 1} <small>(${scenario.timestamp})</small></h4>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <div>Needs: ${scenario.needs}</div>
+                <div>Wants: ${scenario.wants}</div>
+                <div>Future: ${scenario.future}</div>
+                <div>Retirement: ${scenario.retirement}</div>
+            </div>
+            <div style="margin-top: 8px; font-weight: bold;">
+                Total: ${scenario.monthly} (${scenario.annual} annually)
+            </div>
+        </div>
+    `);
+    
+    document.getElementById('saved-scenarios').style.display = 'block';
+}
+/* ===== NEW CLEAR FUNCTION ===== */
+function clearScenarios() {
+    if (confirm("Are you sure you want to clear all saved scenarios?")) {
+        document.getElementById('scenarios-list').innerHTML = '';
+        document.getElementById('saved-scenarios').style.display = 'none';
+    }
+            // Initialize all existing rows
+            document.querySelectorAll('.expense-grid').forEach(row => {
+                setupRowActions(row);
+                row.querySelectorAll('.amount, .frequency').forEach(input => {
+                    input.addEventListener('input', calculateTotals);
+                });
+            });
+            
+            // Set up event listeners for "Add" buttons
+            document.querySelectorAll('.add-row-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const category = this.getAttribute('data-category');
+                    addNewExpenseRow(category);
+                });
+            });
+            
+            // Calculate button
+            document.getElementById('validate').addEventListener('click', validateInputs);
+            document.getElementById('reset').addEventListener('click', resetAll);
+            document.getElementById('save').addEventListener('click', saveScenario);
+            document.getElementById('clear-scenarios').addEventListener('click', clearScenarios);
+           
+            // Multiplier badge click handlers
+            document.querySelectorAll('.multiplier-badge').forEach(badge => {
+                badge.addEventListener('click', function() {
+                    document.querySelectorAll('.multiplier-badge').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Initial calculation
+            calculateTotals();
+        });
+    </script>
+</body>
+</html>
