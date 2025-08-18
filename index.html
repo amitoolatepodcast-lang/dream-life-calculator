@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script>
+  if (window.location.hostname === "amitoolatepodcast-lang.github.io") {
+    window.location.href = "https://calculator.amitoolatepodcast.com";
+  }
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Complete Lifestyle Cost Calculator</title>
@@ -363,7 +368,7 @@
             margin-top: 4px;
             font-size: 13px;
         }
-        
+
         /* Multiplier badges */
         .multiplier-display {
             display: flex;
@@ -415,6 +420,9 @@
             font-size: 0.9em;
         }
         
+        .multiplier-badge {
+            /* Just keep the other styles */
+        }
         /* Validation message */
         #validation-message {
             display: none;
@@ -524,6 +532,15 @@
                 left: 50%;
                 transform: translateX(-50%);
             }
+            /* Income section specific styles */
+            .category-section.income {
+                border-left-color: #4f46e5;
+                background-color: #f5f3ff;
+            }
+
+            #net-difference {
+                font-weight: bold;
+            }
         }
     </style>
 </head>
@@ -538,7 +555,57 @@
             Listen to Podcast 🎧
         </a>
     </div>
-
+<div class="category-section income" style="margin-top: 20px;">
+    <div class="category-header">
+        <h2>Income Sources</h2>
+    </div>
+    <div class="expense-header">
+        <div>Income Source</div>
+        <div>Amount</div>
+        <div>Frequency</div>
+        <div>Monthly</div>
+        <div>Actions</div>
+    </div>
+    
+    <!-- Pre-loaded Income Sources -->
+    <div class="expense-grid" data-category="income">
+        <div><input type="text" class="expense-name" value="Primary Salary"></div>
+        <div><input type="number" class="amount" placeholder="0"></div>
+        <div>
+            <select class="frequency">
+                <option value="monthly" selected>Monthly</option>
+                <option value="annually">Annually</option>
+                <option value="weekly">Weekly</option>
+            </select>
+        </div>
+        <div class="monthly">£0.00</div>
+        <div class="action-buttons">
+            <button class="action-btn move-up">↑</button>
+            <button class="action-btn move-down">↓</button>
+            <button class="action-btn del-row">×</button>
+        </div>
+    </div>
+    
+    <div class="expense-grid" data-category="income">
+        <div><input type="text" class="expense-name" value="Side Income"></div>
+        <div><input type="number" class="amount" placeholder="0"></div>
+        <div>
+            <select class="frequency">
+                <option value="monthly" selected>Monthly</option>
+                <option value="annually">Annually</option>
+                <option value="weekly">Weekly</option>
+            </select>
+        </div>
+        <div class="monthly">£0.00</div>
+        <div class="action-buttons">
+            <button class="action-btn move-up">↑</button>
+            <button class="action-btn move-down">↓</button>
+            <button class="action-btn del-row">×</button>
+        </div>
+    </div>
+    
+    <button class="add-row-btn" data-category="income">+ Add Income Source</button>
+</div>
     <p>Enter your expenses below. All amounts will be converted to monthly and annual equivalents.</p>           
         <!-- NEEDS SECTION -->
         <div class="category-section needs">
@@ -1106,6 +1173,9 @@
         </div>
         
         <div class="button-group">
+    <!-- PRO FEATURE: Export to CSV -->
+    <!-- (Will add export button next to Save Scenario) -->
+
     <button id="validate" class="btn">Validate Inputs</button>
     <button id="reset" class="btn">Reset All</button>
     <button id="save" class="btn btn-secondary">Save Scenario</button>
@@ -1115,6 +1185,7 @@
 <div id="validation-message" style="display:none; margin-top:10px; padding:10px; background:#fff3cd; border-radius:4px;"></div>
 
 <div id="saved-scenarios" style="margin-top:20px; display:none;">
+    <!-- PRO FEATURE: Scenario Comparison Tool -->
     <h3>Saved Scenarios</h3>
     <div id="scenarios-list"></div>
 </div>
@@ -1158,8 +1229,35 @@
                 <span>Total Annual Cost:</span>
                 <span id="grand-annual">£0.00</span>
             </div>
+            <div class="total-row" style="border-top: 2px solid #4f46e5; padding-top: 15px;">
+                <span>Total Monthly Income:</span>
+                <span id="income-total">£0.00</span>
+            </div>
+            <div class="annual-row">
+                <span>Annual Income:</span>
+                <span id="income-annual">£0.00</span>
+            </div>
+            <div class="total-row" style="color: #4f46e5;">
+                <span>Net Monthly Difference (Income - Expenses):</span>
+                <span id="net-difference">£0.00</span>
+            </div>
+
         </div>
-        
+            <div class="total-row" style="border-top: 2px solid #8b5cf6;">
+                <span>Your Savings Rate:</span>
+                <span id="savings-rate">0%</span>
+            </div>
+            <div style="text-align: center; margin: 25px 0;">
+                <button onclick="showProTeaser()" class="btn" 
+                        style="background: linear-gradient(135deg, #8b5cf6, #4f46e5);">
+                    ✨ Unlock Advanced Projections (Coming Soon)
+                </button>
+                </div>
+                <script>
+                function showProTeaser() {
+                alert("Pro Version Will Include:\n\n• Custom retirement age planning\n• Tax optimization scenarios\n• Priority support");
+                }
+                </script>
         <!-- RETIREMENT CALCULATOR -->
 <div class="retirement-section">
     <h3>Retirement Savings Target</h3>
@@ -1173,14 +1271,16 @@
     <p>Based on your annual spending of <strong id="retirement-base">£0.00</strong>, you'll need:</p>
 
     <!-- Multiplier Buttons -->
-    <div class="multiplier-display" style="margin-bottom: 25px;">
+    <!-- PRO FEATURE: Custom Retirement Multiplier Slider -->
+    <!-- (Will replace static buttons with dynamic input) -->
+     <div class="multiplier-display" style="margin-bottom: 25px;">
         <div class="multiplier-badge active">
-            <h4>20× Multiple <span class="tooltip"><span class="tooltip-icon">?</span><span class="tooltiptext">Based on the 4% rule, this would provide £1 for every £25 saved. A more conservative estimate.</span></span></h4>
+            <h4>20× Multiple <span class="tooltip"><span class="tooltip-icon">?</span><span class="tooltiptext">A 5% withdrawal rate. This aggressive approach assumes higher risk or shorter retirement. £1 annually for every £20 saved.</span></span></h4>
             <p id="retirement-20">£0.00</p>
             <small>Conservative estimate</small>
         </div>
         <div class="multiplier-badge">
-            <h4>25× Multiple <span class="tooltip"><span class="tooltip-icon">?</span><span class="tooltiptext">Based on the 4% rule, this would provide £1 for every £25 saved. The standard recommendation for retirement planning.</span></span></h4>
+            <h4>25× Multiple <span class="tooltip"><span class="tooltip-icon">?</span><span class="tooltiptext">Based on the 4% rule (Trinity Study). £1 annually for every £25 saved. Adjust for inflation.</span></span></h4>
             <p id="retirement-25">£0.00</p>
             <small>Recommended target</small>
         </div>
@@ -1260,6 +1360,9 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Debugging: Log feature usage (visible in console only)
+            console.log('Calculator loaded. Future paid features mapped.');
+
             // PERFECT FREQUENCY CONVERSIONS
             function convertToMonthly(amount, frequency) {
                 amount = parseFloat(amount) || 0;
@@ -1376,8 +1479,9 @@
                 let needsTotal = 0;
                 let wantsTotal = 0;
                 let futureTotal = 0;
-                
-                // Process all expense rows
+                let incomeTotal = 0;
+                    
+                    // Process all expense rows
                 document.querySelectorAll('.expense-grid').forEach(row => {
                     const amount = parseFloat(row.querySelector('.amount').value) || 0;
                     const frequency = row.querySelector('.frequency').value;
@@ -1393,7 +1497,21 @@
                     else if (category === 'wants') wantsTotal += monthlyAmount;
                     else if (category === 'future') futureTotal += monthlyAmount;
                 });
-                
+                // Calculate income totals
+                document.querySelectorAll('.expense-grid[data-category="income"]').forEach(row => {
+                    const amount = parseFloat(row.querySelector('.amount').value) || 0;
+                    const frequency = row.querySelector('.frequency').value;
+                    const monthlyDisplay = row.querySelector('.monthly');
+                    
+                    const monthlyAmount = convertToMonthly(amount, frequency);
+                    monthlyDisplay.textContent = formatCurrency(monthlyAmount);
+                    incomeTotal += monthlyAmount;
+                });
+                // Calculate savings rate (after incomeTotal is calculated)    
+                    const savingsRate = (futureTotal / incomeTotal * 100).toFixed(1);
+                    document.getElementById('savings-rate').textContent = 
+        `               ${isNaN(savingsRate) ? '0' : savingsRate}%`;
+
                 // Calculate annual totals
                 const grandTotal = needsTotal + wantsTotal + futureTotal;
                 const grandAnnual = grandTotal * 12;
@@ -1408,6 +1526,14 @@
                 document.getElementById('wants-annual').textContent = formatCurrency(wantsTotal * 12);
                 document.getElementById('future-annual').textContent = formatCurrency(futureTotal * 12);
                 document.getElementById('grand-annual').textContent = formatCurrency(grandAnnual);
+                
+                document.getElementById('income-total').textContent = formatCurrency(incomeTotal);
+                document.getElementById('income-annual').textContent = formatCurrency(incomeTotal * 12);
+
+                // Calculate net difference
+                const netDifference = incomeTotal - grandTotal;
+                document.getElementById('net-difference').textContent = formatCurrency(netDifference);
+                document.getElementById('net-difference').style.color = netDifference >= 0 ? '#22c55e' : '#ef4444';
                 
                 // Update retirement calculator
                 calculateRetirement(grandAnnual);
@@ -1501,12 +1627,14 @@
             document.getElementById('clear-scenarios').addEventListener('click', clearScenarios);
            
             // Multiplier badge click handlers
+            /*
             document.querySelectorAll('.multiplier-badge').forEach(badge => {
                 badge.addEventListener('click', function() {
                     document.querySelectorAll('.multiplier-badge').forEach(b => b.classList.remove('active'));
                     this.classList.add('active');
                 });
             });
+            */
             
             // Initial calculation
             calculateTotals();
