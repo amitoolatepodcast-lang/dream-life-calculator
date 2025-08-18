@@ -1,3 +1,6 @@
+🔒 **Privacy Notice**: This calculator runs entirely in your browser.  
+No data is collected, stored, or transmitted.
+
 # Lifestyle Calculator
 
 This is the **Lifestyle Calculator** from the *Am I Too Late?* podcast 🎙️  
