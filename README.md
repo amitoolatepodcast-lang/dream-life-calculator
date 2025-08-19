@@ -1,9 +1,9 @@
 🔒 **Privacy Notice**: This calculator runs entirely in your browser.  
 No data is collected, stored, or transmitted.
 
-# Lifestyle Calculator
+# Dream Life Calculator
 
-This is the **Lifestyle Calculator** from the *Am I Too Late?* podcast 🎙️  
+This is the **Dream Life Calculator** from the *Am I Too Late?* podcast 🎙️  
 It helps you track income, expenses, and savings — and see your lifestyle numbers clearly.
 
 ---
