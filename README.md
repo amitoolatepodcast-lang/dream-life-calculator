@@ -20,7 +20,7 @@ It helps you track income, expenses, and savings — and see your lifestyle numb
 
 ## ℹ️ About
 Created for listeners of the *Am I Too Late?* podcast to make money management simpler.  
-No sign-ups, no fees — just a free tool to get started.
+Just a free tool to get started.
 
 ---
 
